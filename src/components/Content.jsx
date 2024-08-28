@@ -4,14 +4,54 @@ import { Link } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { Rate } from "antd";
 
-export const Content = ({ dataResto }) => {
+export const Content = ({ dataRestaurant, dataResto }) => {
   const [data, setData] = useState(null);
   const [more, setMore] = useState({ a: 0, b: 8 });
+  const [category, setCategory] = useState("");
+  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     console.log("dataResto =>", dataResto);
     setData(dataResto);
   }, [dataResto]);
+
+  useEffect(() => {
+    console.log("category parent =>", category);
+  }, [category]);
+
+  const categoryHandler = (msg) => {
+    setCategory(msg);
+    if (msg === "") {
+      setData(dataResto);
+      return;
+    }
+    const filteredItems = checked
+      ? dataResto?.filter(
+          (d) =>
+            d.establishmentTypeAndCuisineTags[0] === msg &&
+            d.currentOpenStatusCategory === "OPEN"
+        )
+      : dataResto?.filter((d) => d.establishmentTypeAndCuisineTags[0] === msg);
+    setData(filteredItems);
+  };
+
+  const checkedHandler = (data) => {
+    setChecked(data);
+    if (data === false) {
+      setData(dataResto);
+      return;
+    }
+    const filteredItems =
+      category !== ""
+        ? dataResto?.filter(
+            (d) =>
+              d.currentOpenStatusCategory === "OPEN" &&
+              d.establishmentTypeAndCuisineTags[0] === category
+          )
+        : dataResto?.filter((d) => d.currentOpenStatusCategory === "OPEN");
+    console.log("filteredItems open=>", filteredItems);
+    setData(filteredItems);
+  };
 
   return (
     <div className="flex flex-col justify-center">
@@ -27,7 +67,7 @@ export const Content = ({ dataResto }) => {
           culpa qui officia deserunt mollit anim id est laborum.
         </p>
       </div>
-      <Navbar />
+      <Navbar sendCategory={categoryHandler} sendChecked={checkedHandler} />
       <div className="py-12 px-[5%] md:px-[10%]">
         {!data ? (
           <div className="w-full h-[300px] flex justify-center items-center animate-pulse">
