@@ -108,7 +108,7 @@ export const Content = ({ dataResto }) => {
     <div className="min-h-screen flex flex-col">
       <div className="py-6 sm:py-12 p-[5%] md:px-[10%]">
         <div className="max-w-6xl flex flex-col mx-auto space-y-3">
-          <h1 className="font-bold text-3xl ">Resturants</h1>
+          <h1 className="font-bold text-3xl ">Restaurants</h1>
           <p className="">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim

@@ -27,7 +27,7 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
         <div className="flex items-center gap-x-1 sm:gap-x-5 font-semibold">
           <h1 className="hidden sm:flex">Filter by:</h1>
           <div
-            className={`flex px-2 sm:px-3 py-1 border-b space-x-2 transition-all ${
+            className={`flex items-center px-2 sm:px-3 py-1 border-b space-x-2 transition-all ${
               checked && "text-white bg-blue-950 rounded-lg"
             }`}
           >
@@ -42,7 +42,7 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
           <div>
             <button
               onClick={() => setMenuPrice(!menuPrice)}
-              className={`flex items-end px-2 sm:px-3 py-1 border-b space-x-2 sm:space-x-3 transition-all ${
+              className={`flex items-center px-2 sm:px-3 py-1 border-b space-x-2 sm:space-x-3 transition-all ${
                 price !== "" && "text-white bg-blue-950 rounded-lg"
               }`}
             >
@@ -54,13 +54,13 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
               />
             </button>
             {menuPrice && (
-              <div className="w-[69px] sm:w-[81px] absolute flex flex-col font-normal text-green-600 bg-white px-3 py-1 rounded-md transition-all">
+              <div className="w-[69px] sm:w-[81px] absolute flex flex-col font-normal text-green-600 bg-white px-1 py-1 rounded-md transition-all">
                 <button
                   onClick={() => {
                     setPrice("$$ - $$$");
                     setMenuPrice(false);
                   }}
-                  className="text-left"
+                  className={`${price === "$$ - $$$" && "bg-gray-200 rounded-md"} px-0.5 text-left`}
                 >
                   $$
                 </button>
@@ -69,7 +69,7 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
                     setPrice("$$$$");
                     setMenuPrice(false);
                   }}
-                  className="text-left"
+                  className={`${price === "$$$$" && "bg-gray-200 rounded-sm"} px-0.5 text-left`}
                 >
                   $$$$
                 </button>
@@ -79,7 +79,7 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
           <div>
             <button
               onClick={() => setMenuCategory(!menuCategory)}
-              className={`flex items-end px-2 sm:px-3 py-1 space-x-2 sm:space-x-3 border-b transition-all ${
+              className={`flex items-center px-2 sm:px-3 py-1 space-x-2 sm:space-x-3 border-b transition-all ${
                 category !== "" && "text-white bg-blue-950 rounded-lg"
               }`}
             >
@@ -91,13 +91,13 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
               />
             </button>
             {menuCategory && (
-              <div className="w-[105px] sm:w-[117px] absolute flex flex-col font-normal bg-white px-3 py-1 rounded-md">
+              <div className="w-[105px] sm:w-[117px] absolute flex flex-col font-normal bg-white px-1 py-1 rounded-md">
                 <button
                   onClick={() => {
                     setCategory("Indian");
                     setMenuCategory(false);
                   }}
-                  className="text-left"
+                  className={`${category === "Indian" && "bg-gray-200 rounded-sm"} px-1 text-left`}
                 >
                   Indian
                 </button>
@@ -106,7 +106,7 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
                     setCategory("Italian");
                     setMenuCategory(false);
                   }}
-                  className="text-left"
+                  className={`${category === "Italian" && "bg-gray-200 rounded-sm"} px-1 text-left`}
                 >
                   Italian
                 </button>
@@ -115,7 +115,7 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
                     setCategory("Chinese");
                     setMenuCategory(false);
                   }}
-                  className="text-left"
+                  className={`${category === "Chinese" && "bg-gray-200 rounded-sm"} px-1 text-left`}
                 >
                   Chinese
                 </button>
@@ -124,7 +124,7 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
                     setCategory("Lebanese");
                     setMenuCategory(false);
                   }}
-                  className="text-left"
+                  className={`${category === "Lebanese" && "bg-gray-200 rounded-sm"} px-1 text-left`}
                 >
                   Lebanese
                 </button>
@@ -133,7 +133,7 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
                     setCategory("Bar");
                     setMenuCategory(false);
                   }}
-                  className="text-left"
+                  className={`${category === "Bar" && "bg-gray-200 rounded-sm"} px-1 text-left`}
                 >
                   Bar
                 </button>
@@ -147,8 +147,10 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
               setCategory("");
               setChecked(false);
               setPrice("");
+              setMenuPrice(false);
+              setMenuCategory(false)
             }}
-            className=" uppercase px-3 sm:px-5 py-1 border active:scale-95 transition-all"
+            className="uppercase px-3 sm:px-5 py-1 border active:scale-95 transition-all"
           >
             <span className="hidden sm:flex transition-all">Clear all</span>
             <span className="flex sm:hidden transition-all">Clear</span>
