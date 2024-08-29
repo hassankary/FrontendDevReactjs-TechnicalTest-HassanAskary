@@ -39,7 +39,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="font-sans">
+    <div className="flex flex-col font-sans min-h-screen">
       <Content dataResto={dataResto} />
     </div>
   );

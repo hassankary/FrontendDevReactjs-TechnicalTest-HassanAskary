@@ -118,8 +118,8 @@ export const Content = ({ dataResto }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center">
-      <div className="py-12 px-[5%] md:px-[10%] space-y-3">
+    <div className="min-h-screen flex flex-col justify-center">
+      <div className="py-6 sm:py-12 px-[5%] md:px-[10%] space-y-3">
         <h1 className="font-bold text-3xl ">Resturants</h1>
         <p className="">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -136,9 +136,9 @@ export const Content = ({ dataResto }) => {
         sendChecked={checkedHandler}
         sendPrice={priceHandler}
       />
-      <div className="py-12 px-[5%] md:px-[10%]">
+      <div className="h-full flex flex-col flex-grow py-6 sm:py-12 px-[5%] md:px-[10%]">
         {!data ? (
-          <div className="w-full h-[300px] flex justify-center items-center animate-pulse">
+          <div className="w-full h-full flex-grow flex justify-center items-center animate-pulse">
             <div>Loading...</div>
           </div>
         ) : (
@@ -203,22 +203,26 @@ export const Content = ({ dataResto }) => {
             })}
           </div>
         )}
-        <div className="w-full flex justify-center py-9 font-semibold ">
-          {more.b !== data?.length && more.b < data?.length ? (
-            <button
-              onClick={
-                more.b !== 24
-                  ? () => setMore({ ...more, b: more.b + 8 })
-                  : () => setMore({ ...more, b: more.b + 6 })
-              }
-              className="w-[400px] py-2 uppercase text-sm ring-1 active:scale-95 ring-black transition-all"
-            >
-              load more
-            </button>
-          ) : (
-            <div> You have seen all.</div>
-          )}
-        </div>
+        {data ? (
+          <div className="w-full h-full flex flex-grow justify-center items-center py-9 font-semibold ">
+            {more.b !== data?.length && more.b < data?.length ? (
+              <button
+                onClick={
+                  more.b !== 24
+                    ? () => setMore({ ...more, b: more.b + 8 })
+                    : () => setMore({ ...more, b: more.b + 6 })
+                }
+                className="w-[400px] py-2 uppercase text-sm ring-1 active:scale-95 ring-black transition-all"
+              >
+                load more
+              </button>
+            ) : data?.length === 0 ? (
+              <div> Not found. </div>
+            ) : (
+              <div> You have seen all.</div>
+            )}
+          </div>
+        ) : null}
       </div>
     </div>
   );
