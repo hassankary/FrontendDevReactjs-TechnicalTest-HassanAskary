@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { Rate } from "antd";
 
-export const Content = ({ dataRestaurant, dataResto }) => {
+export const Content = ({ dataResto }) => {
   const [data, setData] = useState(null);
   const [more, setMore] = useState({ a: 0, b: 8 });
   const [category, setCategory] = useState("");
   const [checked, setChecked] = useState(false);
+  const [price, setPrice] = useState("");
 
   useEffect(() => {
     console.log("dataResto =>", dataResto);
@@ -19,19 +20,43 @@ export const Content = ({ dataRestaurant, dataResto }) => {
     console.log("category parent =>", category);
   }, [category]);
 
+  useEffect(() => {
+    console.log("price=>", price);
+  }, [price]);
+
+  useEffect(() => {
+    console.log("data ==>", data);
+  }, [data]);
+
   const categoryHandler = (msg) => {
     setCategory(msg);
     if (msg === "") {
       setData(dataResto);
       return;
     }
-    const filteredItems = checked
-      ? dataResto?.filter(
-          (d) =>
-            d.establishmentTypeAndCuisineTags[0] === msg &&
-            d.currentOpenStatusCategory === "OPEN"
-        )
-      : dataResto?.filter((d) => d.establishmentTypeAndCuisineTags[0] === msg);
+    const filteredItems =
+      checked && price !== ""
+        ? dataResto?.filter(
+            (d) =>
+              d.establishmentTypeAndCuisineTags[0] === msg &&
+              d.currentOpenStatusCategory === "OPEN" &&
+              d.priceTag === price
+          )
+        : price !== ""
+        ? dataResto?.filter(
+            (d) =>
+              d.establishmentTypeAndCuisineTags[0] === msg &&
+              d.priceTag === price
+          )
+        : checked
+        ? dataResto?.filter(
+            (d) =>
+              d.establishmentTypeAndCuisineTags[0] === msg &&
+              d.currentOpenStatusCategory === "OPEN"
+          )
+        : dataResto?.filter(
+            (d) => d.establishmentTypeAndCuisineTags[0] === msg
+          );
     setData(filteredItems);
   };
 
@@ -42,14 +67,53 @@ export const Content = ({ dataRestaurant, dataResto }) => {
       return;
     }
     const filteredItems =
-      category !== ""
+      category !== "" && price !== ""
+        ? dataResto?.filter(
+            (d) =>
+              d.currentOpenStatusCategory === "OPEN" &&
+              d.establishmentTypeAndCuisineTags[0] === category &&
+              d.priceTag === price
+          )
+        : category !== ""
         ? dataResto?.filter(
             (d) =>
               d.currentOpenStatusCategory === "OPEN" &&
               d.establishmentTypeAndCuisineTags[0] === category
           )
+        : price !== ""
+        ? dataResto?.filter(
+            (d) =>
+              d.currentOpenStatusCategory === "OPEN" && d.priceTag === price
+          )
         : dataResto?.filter((d) => d.currentOpenStatusCategory === "OPEN");
-    console.log("filteredItems open=>", filteredItems);
+    setData(filteredItems);
+  };
+
+  const priceHandler = (data) => {
+    setPrice(data);
+    if (data === "") {
+      setData(dataResto);
+      return;
+    }
+    const filteredItems =
+      category !== "" && checked
+        ? dataResto?.filter(
+            (d) =>
+              d.priceTag === data &&
+              d.establishmentTypeAndCuisineTags[0] === category &&
+              d.currentOpenStatusCategory === "OPEN"
+          )
+        : category !== ""
+        ? dataResto?.filter(
+            (d) =>
+              d.priceTag === data &&
+              d.establishmentTypeAndCuisineTags[0] === category
+          )
+        : checked
+        ? dataResto?.filter(
+            (d) => d.priceTag === data && d.currentOpenStatusCategory === "OPEN"
+          )
+        : dataResto?.filter((d) => d.priceTag === data);
     setData(filteredItems);
   };
 
@@ -67,7 +131,11 @@ export const Content = ({ dataRestaurant, dataResto }) => {
           culpa qui officia deserunt mollit anim id est laborum.
         </p>
       </div>
-      <Navbar sendCategory={categoryHandler} sendChecked={checkedHandler} />
+      <Navbar
+        sendCategory={categoryHandler}
+        sendChecked={checkedHandler}
+        sendPrice={priceHandler}
+      />
       <div className="py-12 px-[5%] md:px-[10%]">
         {!data ? (
           <div className="w-full h-[300px] flex justify-center items-center animate-pulse">

@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-export const Navbar = ({ sendCategory, sendChecked }) => {
+export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
   const [menuCategory, setMenuCategory] = useState(false);
   const [category, setCategory] = useState("");
+  const [menuPrice, setMenuPrice] = useState(false);
+  const [price, setPrice] = useState("");
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
@@ -12,14 +14,22 @@ export const Navbar = ({ sendCategory, sendChecked }) => {
   }, [category]);
 
   useEffect(() => {
-    sendChecked(checked)
+    sendChecked(checked);
   }, [checked]);
+
+  useEffect(() => {
+    sendPrice(price);
+  }, [price]);
 
   return (
     <div className="flex justify-between py-3 px-[10%] text-sm text-center border-y">
       <div className="flex items-center space-x-5 font-semibold">
         <h1>Filter by:</h1>
-        <div className="flex py-2 border-b space-x-1">
+        <div
+          className={`flex px-3 py-1 border-b space-x-2 transition-all ${
+            checked && "text-white bg-blue-950 rounded-lg"
+          }`}
+        >
           <input
             type="radio"
             checked={checked}
@@ -27,9 +37,45 @@ export const Navbar = ({ sendCategory, sendChecked }) => {
           />
           <h1>Open Now</h1>
         </div>
-        <button className="px-2 ">Price</button>
         <div>
-          <button onClick={() => setMenuCategory(!menuCategory)}>
+          <button
+            onClick={() => setMenuPrice(!menuPrice)}
+            className={`px-3 py-1 border-b transition-all ${
+              price !== "" && "text-white bg-blue-950 rounded-lg"
+            }`}
+          >
+            Price
+          </button>
+          {menuPrice && (
+            <div className="absolute flex flex-col font-normal text-green-600 bg-white px-2 py-1 rounded-md">
+              <button
+                onClick={() => {
+                  setPrice("$$ - $$$");
+                  setMenuPrice(false);
+                }}
+                className="text-left"
+              >
+                $$
+              </button>
+              <button
+                onClick={() => {
+                  setPrice("$$$$");
+                  setMenuPrice(false);
+                }}
+                className="text-left"
+              >
+                $$$$
+              </button>
+            </div>
+          )}
+        </div>
+        <div>
+          <button
+            onClick={() => setMenuCategory(!menuCategory)}
+            className={`px-3 py-1 border-b transition-all ${
+              category !== "" && "text-white bg-blue-950 rounded-lg"
+            }`}
+          >
             Categories
           </button>
           {menuCategory && (
@@ -88,8 +134,9 @@ export const Navbar = ({ sendCategory, sendChecked }) => {
           onClick={() => {
             setCategory("");
             setChecked(false);
+            setPrice("");
           }}
-          className=" uppercase px-5 py-1 border"
+          className=" uppercase px-5 py-1 border active:scale-95 transition-all"
         >
           Clear all
         </button>
