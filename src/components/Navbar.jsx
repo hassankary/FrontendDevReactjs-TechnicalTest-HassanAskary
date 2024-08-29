@@ -21,6 +21,10 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
     sendPrice(price);
   }, [price]);
 
+  const dataCategory = ["Indian", "Italian", "Chinese", "Lebanese", "Bar"];
+
+  const dataPrice = ["$$ - $$$", "$$$$"];
+
   return (
     <div className="py-3 px-[5%] md:px-[10%] border-y">
       <div className="max-w-6xl mx-auto flex justify-between text-sm text-center gap-x-1">
@@ -54,25 +58,23 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
               />
             </button>
             {menuPrice && (
-              <div className="w-[69px] sm:w-[81px] absolute flex flex-col font-normal text-green-600 bg-white px-1 py-1 rounded-md transition-all">
-                <button
-                  onClick={() => {
-                    setPrice("$$ - $$$");
-                    setMenuPrice(false);
-                  }}
-                  className={`${price === "$$ - $$$" && "bg-gray-200 rounded-md"} px-0.5 text-left`}
-                >
-                  $$
-                </button>
-                <button
-                  onClick={() => {
-                    setPrice("$$$$");
-                    setMenuPrice(false);
-                  }}
-                  className={`${price === "$$$$" && "bg-gray-200 rounded-sm"} px-0.5 text-left`}
-                >
-                  $$$$
-                </button>
+              <div className="w-[69px] sm:w-[81px] absolute flex flex-col font-normal text-green-600 bg-white px-1 py-1 space-y-1 rounded-md transition-all">
+                {dataPrice?.map((d, i) => {
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setPrice(d);
+                        setMenuPrice(false);
+                      }}
+                      className={`${
+                        price === `${d}` && "bg-gray-200 rounded-md"
+                      } px-0.5 text-left`}
+                    >
+                      {i === 0 ? "$$" : d}
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -91,52 +93,23 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
               />
             </button>
             {menuCategory && (
-              <div className="w-[105px] sm:w-[117px] absolute flex flex-col font-normal bg-white px-1 py-1 rounded-md">
-                <button
-                  onClick={() => {
-                    setCategory("Indian");
-                    setMenuCategory(false);
-                  }}
-                  className={`${category === "Indian" && "bg-gray-200 rounded-sm"} px-1 text-left`}
-                >
-                  Indian
-                </button>
-                <button
-                  onClick={() => {
-                    setCategory("Italian");
-                    setMenuCategory(false);
-                  }}
-                  className={`${category === "Italian" && "bg-gray-200 rounded-sm"} px-1 text-left`}
-                >
-                  Italian
-                </button>
-                <button
-                  onClick={() => {
-                    setCategory("Chinese");
-                    setMenuCategory(false);
-                  }}
-                  className={`${category === "Chinese" && "bg-gray-200 rounded-sm"} px-1 text-left`}
-                >
-                  Chinese
-                </button>
-                <button
-                  onClick={() => {
-                    setCategory("Lebanese");
-                    setMenuCategory(false);
-                  }}
-                  className={`${category === "Lebanese" && "bg-gray-200 rounded-sm"} px-1 text-left`}
-                >
-                  Lebanese
-                </button>
-                <button
-                  onClick={() => {
-                    setCategory("Bar");
-                    setMenuCategory(false);
-                  }}
-                  className={`${category === "Bar" && "bg-gray-200 rounded-sm"} px-1 text-left`}
-                >
-                  Bar
-                </button>
+              <div className="w-[105px] sm:w-[117px] absolute flex flex-col font-normal bg-white px-1 py-1 space-y-1 rounded-md">
+                {dataCategory?.map((d, i) => {
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setCategory(d);
+                        setMenuCategory(false);
+                      }}
+                      className={`${
+                        category === `${d}` && "bg-gray-200 rounded-sm"
+                      } px-1 text-left`}
+                    >
+                      {d}
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -148,7 +121,7 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
               setChecked(false);
               setPrice("");
               setMenuPrice(false);
-              setMenuCategory(false)
+              setMenuCategory(false);
             }}
             className="uppercase px-3 sm:px-5 py-1 border active:scale-95 transition-all"
           >
