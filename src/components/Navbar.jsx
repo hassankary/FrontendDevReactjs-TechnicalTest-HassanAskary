@@ -1,6 +1,6 @@
 "use client";
-
 import { useEffect, useState } from "react";
+import { IoIosArrowDown } from "react-icons/io";
 
 export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
   const [menuCategory, setMenuCategory] = useState(false);
@@ -22,11 +22,11 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
   }, [price]);
 
   return (
-    <div className="flex justify-between py-3 px-[10%] text-sm text-center border-y">
-      <div className="flex items-center space-x-5 font-semibold">
-        <h1>Filter by:</h1>
+    <div className="flex justify-between py-3 px-[5%] md:px-[10%] text-sm text-center gap-x-1 border-y">
+      <div className="flex items-center gap-x-1 sm:gap-x-5 font-semibold">
+        <h1 className="hidden sm:flex">Filter by:</h1>
         <div
-          className={`flex px-3 py-1 border-b space-x-2 transition-all ${
+          className={`flex px-2 sm:px-3 py-1 border-b space-x-2 transition-all ${
             checked && "text-white bg-blue-950 rounded-lg"
           }`}
         >
@@ -35,19 +35,25 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
             checked={checked}
             onChange={() => setChecked(true)}
           />
-          <h1>Open Now</h1>
+          <h1 className="sm:hidden">Open</h1>
+          <h1 className="hidden sm:flex">Open Now</h1>
         </div>
         <div>
           <button
             onClick={() => setMenuPrice(!menuPrice)}
-            className={`px-3 py-1 border-b transition-all ${
+            className={`flex items-end px-2 sm:px-3 py-1 border-b space-x-2 sm:space-x-3 transition-all ${
               price !== "" && "text-white bg-blue-950 rounded-lg"
             }`}
           >
-            Price
+            <span>Price</span>
+            <IoIosArrowDown
+              className={`${
+                menuPrice ? `-rotate-180` : `-rotate-60`
+              } transition-all`}
+            />
           </button>
           {menuPrice && (
-            <div className="absolute flex flex-col font-normal text-green-600 bg-white px-2 py-1 rounded-md">
+            <div className="w-[69px] sm:w-[81px] absolute flex flex-col font-normal text-green-600 bg-white px-3 py-1 rounded-md transition-all">
               <button
                 onClick={() => {
                   setPrice("$$ - $$$");
@@ -72,14 +78,19 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
         <div>
           <button
             onClick={() => setMenuCategory(!menuCategory)}
-            className={`px-3 py-1 border-b transition-all ${
+            className={`flex items-end px-2 sm:px-3 py-1 space-x-2 sm:space-x-3 border-b transition-all ${
               category !== "" && "text-white bg-blue-950 rounded-lg"
             }`}
           >
-            Categories
+            <span>Categories</span>
+            <IoIosArrowDown
+              className={`${
+                menuCategory ? `-rotate-180` : `-rotate-60`
+              } transition-all`}
+            />
           </button>
           {menuCategory && (
-            <div className="absolute flex flex-col font-normal bg-white px-2 py-1 rounded-md">
+            <div className="w-[105px] sm:w-[117px] absolute flex flex-col font-normal bg-white px-3 py-1 rounded-md">
               <button
                 onClick={() => {
                   setCategory("Indian");
@@ -136,9 +147,10 @@ export const Navbar = ({ sendCategory, sendChecked, sendPrice }) => {
             setChecked(false);
             setPrice("");
           }}
-          className=" uppercase px-5 py-1 border active:scale-95 transition-all"
+          className=" uppercase px-3 sm:px-5 py-1 border active:scale-95 transition-all"
         >
-          Clear all
+          <span className="hidden sm:flex transition-all">Clear all</span>
+          <span className="flex sm:hidden transition-all">Clear</span>
         </button>
       </div>
     </div>
